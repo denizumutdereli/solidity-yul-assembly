@@ -45,8 +45,8 @@ To explore and test the examples:
 3. Compile and deploy contracts as needed.
 
 ```bash
-git clone https://github.com/denizumutdereli/solidity-yul-repo.git
-cd solidity-yul-repo
+git clone https://github.com/denizumutdereli/solidity-yul-assembly
+cd solidity-yul-assembly
 # Follow specific instructions for each contract
 ```
 
