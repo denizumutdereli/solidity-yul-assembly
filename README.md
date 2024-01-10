@@ -47,7 +47,24 @@ To explore and test the examples:
 ```bash
 git clone https://github.com/denizumutdereli/solidity-yul-assembly
 cd solidity-yul-assembly
-# Follow specific instructions for each contract
+npm install
+npm install --save-dev hardhat hardhat-ethers hardhat-waffle chai ethereum-waffle ethers
+npx hardhat init
+npx hardhat compile
+aderyn .
+```
+
+For further Aderyn AST analysis
+
+```bash
+aderyn .
+```
+
+For further Foundry AST analysis and REPL
+
+```bash
+forge build
+chisel
 ```
 
 ## Contributing
@@ -61,4 +78,6 @@ Contributions to expand or improve the repository are welcome!
 - [Solidity Documentation](https://docs.soliditylang.org/)
 - [Ethereum EVM Illustrated](https://takenobu-hs.github.io/downloads/ethereum_evm_illustrated.pdf)
 - [Ethereum Improvement Proposals (EIPs)](https://eips.ethereum.org/)
+- [Aderyn](https://github.com/Cyfrin/aderyn)
+- [Foundry](https://github.com/foundry-rs/foundry)
 

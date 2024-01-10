@@ -1,0 +1,20 @@
+{
+  "name": "solidity-yul-assembly",
+  "version": "1.0.0",
+  "description": "This repository is dedicated to exploring low-level operations in Solidity using Yul, an intermediate language designed for Ethereum smart contract development. The examples provided here aim to demonstrate the capabilities, optimizations, and complexities of working directly with the Ethereum Virtual Machine (EVM) through Yul.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^5.0.0",
+    "ethereum-waffle": "^4.0.10",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.19.4",
+    "hardhat-ethers": "^1.0.1",
+    "hardhat-waffle": "^0.0.1-security"
+  }
+}
