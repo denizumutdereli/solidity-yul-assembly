@@ -1,0 +1,85 @@
+Fixed array -> uint256[3]
+
++----------------+-------------+---------------------------------------------------+
+|   Storage Slot |   Content   |                   Description                     |
++----------------+-------------+---------------------------------------------------+
+|       s        |  element0   | The first element of the array is stored in slot s|
++----------------+-------------+---------------------------------------------------+
+|       s + 1    |  element1   | The second element is stored in the next slot     |
++----------------+-------------+---------------------------------------------------+
+|       s + 2    |  element2   | The third element is stored in the following slot |
++----------------+-------------+---------------------------------------------------+
+
+
+Dynamic array -> uint256[]
+
++----------------+----------------+-----------------------------------------------------+
+|   Storage Slot |     Content    |                    Description                      |
++----------------+----------------+-----------------------------------------------------+
+|       s        |      Length    | Slot 's' stores the length of the dynamic array     |
++----------------+----------------+-----------------------------------------------------+
+|  keccak256(s)  |    element0    | The first element is stored at the slot computed    |
+|                |                | as the hash of 's' (keccak256(s))                   |
++----------------+----------------+-----------------------------------------------------+
+| keccak256(s) +1|    element1    | The second element is stored at the next slot       |
++----------------+----------------+-----------------------------------------------------+
+| keccak256(s) +2|    element2    | The third element is stored at the subsequent slot  |
++----------------+----------------+-----------------------------------------------------+
+
+Nested array -> uint256[][]
+
++----------------+----------------+-----------------------------------------------------+
+|   Storage Slot |     Content    |                    Description                      |
++----------------+----------------+-----------------------------------------------------+
+|       s        |   Length of    | Slot 's' stores the length of the outer dynamic     |
+|                |  outer array   | array                                               |
++----------------+----------------+-----------------------------------------------------+
+|  keccak256(s)  |   Length of    | The length of the first inner dynamic array is      |
+|                | inner array[0] | stored at the slot computed as the hash of 's'      |
++----------------+----------------+-----------------------------------------------------+
+| keccak256(s)+1 |   Length of    | The length of the second inner dynamic array is     |
+|                | inner array[1] | stored at the next slot                             |
++----------------+----------------+-----------------------------------------------------+
+|  keccak256(    |   element00    | The first element of the first inner array is       |
+|  keccak256(s)) |                | stored starting from the slot computed as the       |
+|                |                | hash of the slot of the first inner array length    |
++----------------+----------------+-----------------------------------------------------+
+| keccak256(     |   element01    | The second element of the first inner array is      |
+| keccak256(s))  |                | stored in the subsequent slot                       |
+|          + 1   |                |                                                     |
++----------------+----------------+-----------------------------------------------------+
+| keccak256(     |   element10    | The first element of the second inner array is      |
+| keccak256(s)+1)|                | stored starting from the slot computed as the       |
+|                |                | hash of the slot of the second inner array length   |
++----------------+----------------+-----------------------------------------------------+
+
+Mapping -> mapping(uint256 => uint256) 
+
++----------------+----------------------+-----------------------------------------+
+|   Storage Slot |       Content        |            Description                 |
++----------------+----------------------+-----------------------------------------+
+| keccak256(     |   Value for Key k    | The value for a specific key 'k' is    |
+| abi.encode(k,  |                      | stored at the slot computed as the hash|
+| simpleMapping. |                      | of the key 'k' combined with the slot  |
+| slot)          |                      | number where the mapping structure     |
+|                |                      | itself starts.                          |
++----------------+----------------------+-----------------------------------------+
+
+Nested Mapping -> mapping(uint256 => mapping(uint256 => uint256))
+
++----------------+----------------------+-----------------------------------------+
+|   Storage Slot |       Content        |            Description                 |
++----------------+----------------------+-----------------------------------------+
+| keccak256(     |  Slot for Inner      | The slot for the inner mapping         |
+| abi.encode(k1, |  Mapping of Key k1   | corresponding to key 'k1' in the outer |
+| nestedMapping. |                      | mapping is computed as the hash of 'k1'|
+| slot)          |                      | combined with the slot number where    |
+|                |                      | the nested mapping structure starts.   |
++----------------+----------------------+-----------------------------------------+
+| keccak256(     |   Value for Key k2   | The value for key 'k2' in the inner    |
+| abi.encode(k2, |   in Inner Mapping   | mapping of key 'k1' is stored at the   |
+| keccak256(     |                      | slot computed as the hash of 'k2'      |
+| abi.encode(k1, |                      | combined with the hashed slot of the   |
+| nestedMapping. |                      | inner mapping of 'k1'.                 |
+| slot))         |                      |                                         |
++----------------+----------------------+-----------------------------------------+
