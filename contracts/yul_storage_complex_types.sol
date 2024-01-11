@@ -23,6 +23,7 @@ contract YulStorageComplex {
         addressList[address(1)] = [9, 99, 999];
     }
 
+    // EVM is using sequential indexing for the fixed array and valute gether logic is slot + index 
     function fixedArrayView(uint256 index) external view returns(uint256 s, bytes32 a, uint256 r) {
         assembly {
             // index 0
@@ -32,6 +33,11 @@ contract YulStorageComplex {
         }
     }
 
+    /* 
+        For the dynamic arrays on EVM its more complicated. At first it does only keeps the length of the array
+        The elements themselves are strored at the slot keccak256(slot)
+        The gether function logic is keccak256(slot) + index
+    */
     function readbigArrayLocation(uint256 index) external view returns(uint256 s, bytes32 l, uint256 r) {
         uint256 slot;
         assembly {
@@ -46,6 +52,11 @@ contract YulStorageComplex {
         }
     }
 
+    /*
+        Mappings use a hash-based approach for storage since they don't store their elements in sequential slots.
+        The slot for a value corresponding to a key k in a mapping stored at slot s is keccak256(abi.encode(k, s)). 
+        This formula ensures that each key maps to a unique slot.
+    */
     function getMapping(uint256 key) external view returns(bytes32 l, uint256 r) {
         uint256 slot;
         assembly {
@@ -60,6 +71,16 @@ contract YulStorageComplex {
         }
     }
 
+    /* 
+        Nested mappings add another layer of hashing.
+        For a nested mapping, the location of a value is determined by first calculating the slot of the inner mapping 
+        and then applying the hash-based approach of regular mappings.
+
+        If you have a mapping like mapping (uint => mapping (uint => uint)) nestedMapping stored at slot s, 
+        the slot for the value corresponding to keys k1 and k2 is calculated as keccak256(abi.encode(k2, keccak256(abi.encode(k1, s)))). 
+        Here, k1 is the key for the outer mapping, and k2 is the key for the inner mapping.
+        
+    */
     function getNestedMapping() external view returns(bytes32 l, uint256 r) {
         uint256 slot;
         assembly {
